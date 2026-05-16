@@ -1,0 +1,84 @@
+---
+const pathname = Astro.url.pathname;
+const links = [
+  { href: "/", label: "Inicio" },
+  { href: "/nosotros", label: "Nosotros" },
+  { href: "/servicios", label: "Servicios" },
+  { href: "/contacto", label: "Contacto" },
+];
+---
+
+<nav class="w-full top-0 sticky bg-surface z-50 shadow-sm border-b border-outline-variant">
+  <div class="max-w-max-width mx-auto flex justify-between items-center px-margin-mobile md:px-margin-desktop h-20">
+    <a href="/" class="flex items-center">
+      <img src="/logo.png" alt="Inmocredit" class="h-20 md:h-[144px] w-auto" />
+    </a>
+    <div class="hidden md:flex items-center gap-lg">
+      {
+        links.map((link) => {
+          const isActive = pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href));
+          return (
+            <a
+              href={link.href}
+              class:list={[
+                "font-label-md text-label-md transition-colors",
+                isActive
+                  ? "text-primary border-b-2 border-primary pb-1"
+                  : "text-on-surface-variant hover:text-primary",
+              ]}
+            >
+              {link.label}
+            </a>
+          );
+        })
+      }
+    </div>
+    <a
+      href="https://wa.me/50250948707"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="hidden md:inline-block bg-primary-container text-on-primary font-label-md text-label-md px-md py-sm rounded-lg hover:opacity-90 hover:scale-[1.02] transition-transform active:scale-95 duration-150"
+    >
+      Contactanos
+    </a>
+    <button id="menu-toggle" class="md:hidden flex items-center justify-center w-10 h-10 text-on-surface" aria-label="Toggle menu">
+      <span class="material-symbols-outlined text-[32px]">menu</span>
+    </button>
+  </div>
+  <div id="mobile-menu" class="md:hidden hidden bg-surface border-t border-outline-variant px-margin-mobile py-md space-y-md">
+    {
+      links.map((link) => {
+        const isActive = pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href));
+        return (
+          <a
+            href={link.href}
+            class:list={[
+              "block font-label-md text-label-md py-sm transition-colors",
+              isActive ? "text-primary font-bold" : "text-on-surface-variant hover:text-primary",
+            ]}
+          >
+            {link.label}
+          </a>
+        );
+      })
+    }
+    <a
+      href="https://wa.me/50250948707"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="block text-center bg-primary-container text-on-primary font-label-md text-label-md px-md py-sm rounded-lg mt-md"
+    >
+      Contactanos
+    </a>
+  </div>
+</nav>
+
+<script>
+  const toggle = document.getElementById("menu-toggle");
+  const menu = document.getElementById("mobile-menu");
+  if (toggle && menu) {
+    toggle.addEventListener("click", () => {
+      menu.classList.toggle("hidden");
+    });
+  }
+</script>
